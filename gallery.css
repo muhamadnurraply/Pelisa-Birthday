@@ -1,0 +1,215 @@
+/* ==========================================================
+   GALLERY
+========================================================== */
+
+.gallery{
+
+    overflow:hidden;
+
+}
+
+.gallery .container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.gallery__wrapper{
+
+    width:100%;
+
+    margin-top:60px;
+
+    position:relative;
+
+}
+
+.gallery__track{
+
+    display:flex;
+
+    gap:28px;
+
+    overflow-x:auto;
+
+    scroll-behavior:smooth;
+
+    scroll-snap-type:x mandatory;
+
+    padding-bottom:20px;
+
+    scrollbar-width:none;
+
+}
+
+.gallery__track::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+/* ===================== CARD ===================== */
+
+.gallery__item{
+
+    flex:0 0 320px;
+
+    scroll-snap-align:center;
+
+    transition:var(--transition-normal);
+
+}
+
+.gallery__item:nth-child(odd){
+
+    transform:rotate(-2deg);
+
+}
+
+.gallery__item:nth-child(even){
+
+    transform:rotate(2deg);
+
+}
+
+.gallery__item:hover{
+
+    transform:
+        translateY(-10px)
+        rotate(0deg);
+
+}
+
+/* ===================== IMAGE ===================== */
+
+.gallery__item img{
+
+    width:100%;
+
+    aspect-ratio:4/5;
+
+    object-fit:cover;
+
+    border-radius:var(--radius-lg);
+
+    border:6px solid white;
+
+    box-shadow:var(--shadow-lg);
+
+    transition:var(--transition-normal);
+
+}
+
+.gallery__item:hover img{
+
+    transform:scale(1.04);
+
+}
+
+/* ===================== CAPTION ===================== */
+
+.gallery__item figcaption{
+
+    margin-top:18px;
+
+    text-align:center;
+
+}
+
+.gallery__item figcaption h4{
+
+    color:var(--text-primary);
+
+    font-size:1rem;
+
+    margin-bottom:6px;
+
+}
+
+.gallery__item figcaption p{
+
+    font-size:.85rem;
+
+    color:var(--text-muted);
+
+}
+
+/* ===================== FADE ===================== */
+
+.gallery__wrapper::before,
+
+.gallery__wrapper::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    bottom:0;
+
+    width:70px;
+
+    pointer-events:none;
+
+    z-index:2;
+
+}
+
+.gallery__wrapper::before{
+
+    left:0;
+
+    background:
+    linear-gradient(
+        90deg,
+        var(--bg-primary),
+        transparent
+    );
+
+}
+
+.gallery__wrapper::after{
+
+    right:0;
+
+    background:
+    linear-gradient(
+        270deg,
+        var(--bg-primary),
+        transparent
+    );
+
+}
+
+/* ===================== MOBILE ===================== */
+
+@media(max-width:768px){
+
+.gallery{
+
+padding:90px 0;
+
+}
+
+.gallery__item{
+
+flex:0 0 82%;
+
+transform:none !important;
+
+}
+
+.gallery__wrapper::before,
+
+.gallery__wrapper::after{
+
+display:none;
+
+}
+
+}
