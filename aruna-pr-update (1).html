@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update PR — Ormik Aruna 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-deep:#0b3f3c;
+    --teal-mid:#0f5952;
+    --teal-line:#1c6a63;
+    --cream:#fdf3e1;
+    --cream-2:#fbead0;
+    --gold:#f2a522;
+    --gold-deep:#e07d1c;
+    --ink:#0b3f3c;
+    --paper:#fffaf0;
+    --muted:#5f7d78;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  ::selection{ background:var(--gold); color:var(--teal-deep); }
+
+  /* ---------- progress dots nav ---------- */
+  .navdots{
+    position:fixed;
+    right:22px; top:50%; transform:translateY(-50%);
+    z-index:50;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .navdots a{
+    width:9px; height:9px; border-radius:50%;
+    background:rgba(11,63,60,0.18);
+    display:block; transition:all .35s ease;
+  }
+  .navdots a.active{ background:var(--gold-deep); transform:scale(1.5); }
+  @media (max-width:820px){ .navdots{ display:none; } }
+
+  /* ---------- TOP NAVBAR ---------- */
+  .topnav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 8vw;
+    transition:background .35s ease, padding .35s ease, box-shadow .35s ease;
+  }
+  .topnav.scrolled{
+    background:rgba(253,243,225,.9);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    padding:13px 8vw;
+    box-shadow:0 1px 0 rgba(11,63,60,.08);
+  }
+  .topnav .brand{
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.02rem;
+    color:var(--paper); letter-spacing:-.01em;
+    display:flex; align-items:center; gap:9px;
+    text-decoration:none;
+    transition:color .35s ease;
+  }
+  .topnav .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--gold); display:inline-block; flex-shrink:0; }
+  .topnav.scrolled .brand{ color:var(--teal-deep); }
+  .topnav .navlinks{ display:flex; gap:4px; }
+  .topnav .navlinks a{
+    font-size:13px; font-weight:600; text-decoration:none;
+    color:rgba(253,243,225,.78);
+    padding:8px 15px; border-radius:999px;
+    transition:color .3s ease, background .3s ease;
+    white-space:nowrap;
+  }
+  .topnav.scrolled .navlinks a{ color:var(--muted); }
+  .topnav .navlinks a:hover{ color:var(--gold); }
+  .topnav.scrolled .navlinks a:hover{ background:rgba(242,165,34,.12); color:var(--gold-deep); }
+  .topnav .navlinks a.active{ color:var(--gold); }
+  .topnav.scrolled .navlinks a.active{ color:var(--gold-deep); background:rgba(242,165,34,.14); }
+  @media (max-width:820px){
+    .topnav{ padding:16px 5vw; }
+    .topnav .brand span.label{ display:none; }
+    .topnav .navlinks{ gap:0; }
+    .topnav .navlinks a{ font-size:11.5px; padding:7px 9px; }
+  }
+
+  section{ position:relative; padding:110px 8vw; }
+  .section-inner{ max-width:1180px; margin:0 auto; position:relative; z-index:2; }
+
+  /* ---------- decorative blobs ---------- */
+  .blob{
+    position:absolute; border-radius:50%;
+    filter:blur(2px);
+    opacity:.55;
+    pointer-events:none;
+  }
+  @keyframes drift{
+    0%,100%{ transform:translate(0,0) rotate(0deg); }
+    50%{ transform:translate(18px,-24px) rotate(8deg); }
+  }
+  @keyframes driftSlow{
+    0%,100%{ transform:translate(0,0) rotate(0deg); }
+    50%{ transform:translate(-24px,20px) rotate(-6deg); }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    background:
+      radial-gradient(120% 90% at 15% 15%, #12746b 0%, transparent 55%),
+      linear-gradient(160deg, var(--teal-deep) 15%, #0a2d2b 100%);
+    color:var(--cream);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 8vw;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:26px;
+    opacity:0; animation:riseIn .8s .1s ease forwards;
+  }
+  .hero .eyebrow::before{
+    content:''; width:26px; height:2px; background:var(--gold); display:block;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.6rem);
+    line-height:0.98;
+    color:var(--paper);
+    opacity:0; animation:riseIn .9s .25s ease forwards;
+  }
+  .hero h1 span{ color:var(--gold); font-style:italic; font-weight:500; }
+  .hero .sub{
+    margin-top:26px; max-width:560px;
+    font-size:clamp(1rem,1.6vw,1.15rem);
+    color:#cfe4e0; line-height:1.6;
+    opacity:0; animation:riseIn .9s .4s ease forwards;
+  }
+  .hero .tag{
+    margin-top:44px;
+    display:inline-flex; width:fit-content;
+    padding:9px 20px; border:1px solid rgba(253,243,225,.28);
+    border-radius:999px; font-size:13px; font-weight:600;
+    color:var(--cream);
+    opacity:0; animation:riseIn .9s .55s ease forwards;
+  }
+  @keyframes riseIn{
+    from{ opacity:0; transform:translateY(22px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero-blob-1{ width:420px; height:420px; background:radial-gradient(circle at 35% 35%, #f2a522, transparent 70%); top:-140px; right:-120px; animation:drift 11s ease-in-out infinite; }
+  .hero-blob-2{ width:260px; height:260px; background:radial-gradient(circle at 40% 40%, #1c6a63, transparent 70%); bottom:-100px; left:-60px; animation:driftSlow 13s ease-in-out infinite; }
+  .scroll-cue{
+    position:absolute; bottom:36px; left:8vw;
+    display:flex; align-items:center; gap:10px;
+    color:#a9c8c3; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    opacity:0; animation:riseIn .9s .8s ease forwards;
+  }
+  .scroll-cue .line{ width:1px; height:34px; background:linear-gradient(#a9c8c3, transparent); animation:pulseLine 1.8s ease-in-out infinite; }
+  @keyframes pulseLine{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+
+  /* ---------- SECTION LABEL ---------- */
+  .label-row{ display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+  .label-row .num{
+    font-family:'Fraunces', serif; font-weight:600; font-style:italic;
+    color:var(--gold-deep); font-size:15px;
+  }
+  .label-row .line{ height:1px; flex:1; background:linear-gradient(90deg, rgba(11,63,60,.25), transparent); }
+  .kicker{ font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+
+  .section-title{ font-size:clamp(1.9rem, 3.6vw, 3rem); margin-bottom:10px; }
+  .section-desc{ color:var(--muted); font-size:1.02rem; max-width:560px; margin-bottom:52px; }
+
+  /* fade-up reveal */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- STAT CARDS ---------- */
+  .stat-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:56px;
+  }
+  @media (max-width:820px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stat-card{
+    background:var(--paper);
+    border:1px solid rgba(11,63,60,.08);
+    border-radius:18px;
+    padding:26px 22px;
+    box-shadow:0 1px 0 rgba(11,63,60,.04);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .stat-card:hover{ transform:translateY(-6px); box-shadow:0 18px 32px -18px rgba(11,63,60,.35); }
+  .stat-card .num{
+    font-family:'Fraunces', serif; font-weight:800; font-size:clamp(2.1rem,3.4vw,2.8rem);
+    color:var(--teal-deep);
+    line-height:1;
+  }
+  .stat-card .num .plus{ color:var(--gold-deep); }
+  .stat-card .num-label{ margin-top:10px; font-size:13.5px; color:var(--muted); font-weight:600; }
+
+  /* ---------- TABLE ---------- */
+  .table-wrap{
+    background:var(--paper);
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(11,63,60,.08);
+  }
+  table{ width:100%; border-collapse:collapse; }
+  thead th{
+    text-align:left; padding:16px 20px; font-size:12.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--cream); background:var(--teal-deep); font-weight:700;
+  }
+  tbody td{ padding:16px 20px; font-size:14.5px; border-bottom:1px solid rgba(11,63,60,.06); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr{ transition:background .25s ease; }
+  tbody tr:hover{ background:var(--cream-2); }
+  .brand-name{ font-weight:700; color:var(--teal-deep); }
+  .status-pill{
+    display:inline-block; padding:5px 12px; border-radius:999px;
+    font-size:12.5px; font-weight:700;
+    background:rgba(242,165,34,.16); color:var(--gold-deep);
+  }
+  .status-pill.done{ background:rgba(15,89,82,.12); color:var(--teal-mid); }
+  .status-pill.wait{ background:rgba(224,125,28,.14); color:var(--gold-deep); }
+  .status-pill.no{ background:rgba(160,60,50,.12); color:#a03c32; }
+  .note-cell{ color:var(--muted); }
+
+  .link-chip{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:12px;
+    background:var(--teal-deep); color:var(--cream);
+    font-size:13px; font-weight:700; text-decoration:none;
+    border:1px solid transparent;
+  }
+  .link-chip:hover{ background:var(--teal-mid); }
+  .head-row{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;
+    margin-bottom:32px;
+  }
+
+  /* ---------- LOGO PLACEHOLDER GRID ---------- */
+  .logo-tier-label{
+    font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold-deep); margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .logo-tier-label::before{ content:''; width:16px; height:2px; background:var(--gold-deep); }
+  .placeholder-box{
+    border:1.5px dashed rgba(11,63,60,.28);
+    border-radius:16px;
+    background:rgba(11,63,60,.02);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:12.5px; font-weight:600;
+    text-align:center;
+    transition:border-color .3s ease, background .3s ease;
+    min-height:110px;
+    padding:14px;
+  }
+  .placeholder-box:hover{ border-color:var(--gold-deep); background:rgba(242,165,34,.06); color:var(--gold-deep); }
+  .placeholder-box .plus-icon{
+    width:30px; height:30px; border-radius:50%;
+    border:1.5px dashed currentColor;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+  }
+  .logo-main-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:22px; }
+  .logo-main-grid .placeholder-box{ min-height:130px; }
+  .logo-partner-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:720px){ .logo-main-grid, .logo-partner-grid{ grid-template-columns:1fr 1fr; } }
+
+  /* ---------- KONTEN PLAN ---------- */
+  .konten-layout{ display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:start; }
+  @media (max-width:920px){ .konten-layout{ grid-template-columns:1fr; } }
+  .stat-grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:30px; }
+  @media (max-width:560px){ .stat-grid-3{ grid-template-columns:1fr; } }
+
+  .stat-card.accent-top{ position:relative; padding-top:30px; }
+  .stat-card.accent-top::before{
+    content:''; position:absolute; top:0; left:22px; width:26px; height:4px;
+    border-radius:0 0 4px 4px; background:var(--gold-deep);
+  }
+
+  .progress-block{ display:flex; flex-direction:column; gap:24px; }
+  .progress-label-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:10px; font-size:14.5px; font-weight:700; color:var(--teal-deep);
+  }
+  .progress-count{ font-family:'Fraunces', serif; font-weight:700; font-size:13.5px; color:var(--muted); }
+  .progress-bar{ height:8px; border-radius:999px; background:rgba(11,63,60,.1); overflow:hidden; }
+  .progress-fill{
+    height:100%; width:0%; border-radius:999px;
+    background:linear-gradient(90deg, var(--gold-deep), var(--teal-mid));
+    transition:width .8s cubic-bezier(.22,.8,.25,1);
+  }
+
+  .konten-right{ display:flex; flex-direction:column; }
+  .behind-card{
+    background:var(--teal-deep); color:var(--cream);
+    border-radius:20px; padding:22px; margin-bottom:18px;
+    transition:transform .35s ease;
+  }
+  .behind-card:hover{ transform:translateY(-4px); }
+  .behind-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .behind-avatar{ width:22px; height:22px; border-radius:50%; background:var(--gold); display:inline-block; flex-shrink:0; }
+  .behind-user{ font-size:13.5px; font-weight:700; }
+  .behind-video{
+    border-radius:14px;
+    background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+    border:1px solid rgba(253,243,225,.14);
+    min-height:120px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; letter-spacing:.09em; text-transform:uppercase; font-weight:700;
+    color:rgba(253,243,225,.55);
+    margin-bottom:14px;
+  }
+  .behind-caption{ font-size:13.5px; color:#cfe4e0; line-height:1.5; }
+
+  /* ---------- RENCANA KEDEPAN ---------- */
+  .plan-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  @media (max-width:720px){ .plan-grid{ grid-template-columns:1fr; } }
+  .plan-card{
+    background:var(--teal-deep); color:var(--cream);
+    border-radius:20px; padding:30px 28px;
+    position:relative; overflow:hidden;
+    transition:transform .35s ease;
+  }
+  .plan-card:hover{ transform:translateY(-5px); }
+  .plan-card .idx{
+    font-family:'Fraunces', serif; font-weight:800; font-style:italic;
+    font-size:2.6rem; color:var(--gold); line-height:1; opacity:.9;
+    margin-bottom:14px; display:block;
+  }
+  .plan-card p{ font-size:1.02rem; font-weight:600; line-height:1.5; }
+  .plan-card::after{
+    content:''; position:absolute; width:130px; height:130px; border-radius:50%;
+    background:rgba(242,165,34,.12); right:-40px; bottom:-50px;
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closing{
+    background:
+      radial-gradient(90% 90% at 85% 20%, #12746b 0%, transparent 55%),
+      linear-gradient(160deg, var(--teal-deep) 10%, #0a2d2b 100%);
+    color:var(--cream);
+    text-align:left;
+    min-height:70vh;
+    display:flex; flex-direction:column; justify-content:center;
+    overflow:hidden;
+  }
+  .closing h2{
+    font-size:clamp(2.2rem, 5.6vw, 4.2rem);
+    color:var(--paper);
+  }
+  .closing h2 em{ color:var(--gold); font-style:italic; }
+  .closing .sub{ margin-top:18px; color:#cfe4e0; font-size:1.05rem; max-width:500px; }
+  .closing-blob{ width:340px; height:340px; background:radial-gradient(circle at 40% 40%, #f2a522, transparent 70%); top:-100px; right:-80px; animation:driftSlow 12s ease-in-out infinite; }
+
+  footer{
+    background:#0a2d2b; color:#7fa39d; text-align:center; padding:26px; font-size:12.5px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <a href="#hero" class="brand" data-target="hero"><span class="dot"></span><span class="label">PR Update — Aruna 2026</span></a>
+  <div class="navlinks">
+    <a href="#sponsor" data-target="sponsor">Sponsor</a>
+    <a href="#logos" data-target="logos">Logo</a>
+    <a href="#konten" data-target="konten">Konten</a>
+    <a href="#rencana" data-target="rencana">Rencana</a>
+    <a href="#closing" data-target="closing">Penutup</a>
+  </div>
+</nav>
+
+<nav class="navdots" id="navdots">
+  <a href="#hero" class="active" data-target="hero"></a>
+  <a href="#sponsor" data-target="sponsor"></a>
+  <a href="#logos" data-target="logos"></a>
+  <a href="#konten" data-target="konten"></a>
+  <a href="#rencana" data-target="rencana"></a>
+  <a href="#closing" data-target="closing"></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-blob-1 blob"></div>
+  <div class="hero-blob-2 blob"></div>
+  <span class="eyebrow">Ormik Aruna 2026</span>
+  <h1>Update Divisi<br><span>Public Relation</span></h1>
+  <p class="sub">Rangkuman progres minggu ini — sponsorship, konten, sampai rencana ke depan. Disusun buat dipresentasikan ke seluruh panitia.</p>
+  <span class="tag">Untuk Rapat Panitia · Ormik Aruna 2026</span>
+  <div class="scroll-cue"><span class="line"></span> Scroll</div>
+</section>
+
+<!-- SPONSOR -->
+<section id="sponsor">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-row"><span class="num">01</span><div class="line"></div><span class="kicker">Update Sponsor</span></div>
+      <div class="head-row">
+        <div>
+          <h2 class="section-title">Progres komunikasi<br>dengan calon sponsor</h2>
+        </div>
+        <a href="#" class="link-chip">↗ Database Sponsor</a>
+      </div>
+    </div>
+
+    <div class="stat-grid reveal">
+      <div class="stat-card"><div class="num" data-count="70"><span class="counted">0</span><span class="plus">+</span></div><div class="num-label">Sudah Dikonfirmasi</div></div>
+      <div class="stat-card"><div class="num" data-count="50"><span class="counted">0</span><span class="plus">+</span></div><div class="num-label">Upload Proposal</div></div>
+      <div class="stat-card"><div class="num" data-count="35"><span class="counted">0</span><span class="plus">+</span></div><div class="num-label">Dapat Balasan</div></div>
+      <div class="stat-card"><div class="num" data-count="6"><span class="counted">0</span></div><div class="num-label">Approved</div></div>
+    </div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>Nama Brand</th><th>Status Catatan</th><th>Catatan</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="brand-name">Se Indonesia</td><td><span class="status-pill wait">Udah Fix</span></td><td class="note-cell">Tinggal tunggu barang sampai last day — 100 pcs</td></tr>
+          <tr><td class="brand-name">PT Cybersama</td><td><span class="status-pill done">Sudah Cair</span></td><td class="note-cell">Dapat dana Rp1.000.000</td></tr>
+          <tr><td class="brand-name">Pandawa</td><td><span class="status-pill wait">Deal, tinggal surat penyuratan</span></td><td class="note-cell">Dapat diskon 10% seluruh percetakan, tinggal list item</td></tr>
+          <tr><td class="brand-name">Cleo</td><td><span class="status-pill wait">Deal, tinggal surat penyuratan</span></td><td class="note-cell">Ada potongan 50%</td></tr>
+          <tr><td class="brand-name">KHS</td><td><span class="status-pill done">Sudah Fix</span></td><td class="note-cell">Sudah dapat baju, jangan lupa bayar</td></tr>
+          <tr><td class="brand-name">Jarvis</td><td><span class="status-pill wait">Tahap Konfirmasi</span></td><td class="note-cell">Ada alasan tertentu yang masih diproses</td></tr>
+          <tr><td class="brand-name">Coca Cola</td><td><span class="status-pill no">Ditolak — 50 dus</span></td><td class="note-cell">Masih dikonfirmasi ulang dengan PO kita</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO SPONSOR PLACEHOLDER -->
+<section id="logos" style="background:var(--cream-2);">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-row"><span class="num">02</span><div class="line"></div><span class="kicker">Contoh Layout</span></div>
+      <h2 class="section-title">Logo Sponsor & Partner</h2>
+      <p class="section-desc">Slot di bawah masih kosong — logo brand tinggal ditempel di sini nanti.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="logo-tier-label">Main Sponsor & Official Supporting Sponsor</div>
+      <div class="logo-main-grid">
+        <div class="placeholder-box"><span class="plus-icon">+</span>Logo Main Sponsor</div>
+        <div class="placeholder-box"><span class="plus-icon">+</span>Logo Official Supporting Sponsor</div>
+      </div>
+
+      <div class="logo-tier-label" style="margin-top:8px;">Official Partners</div>
+      <div class="logo-partner-grid">
+        <div class="placeholder-box"><span class="plus-icon">+</span>Apparel Partner</div>
+        <div class="placeholder-box"><span class="plus-icon">+</span>Printing Partner</div>
+        <div class="placeholder-box"><span class="plus-icon">+</span>Hydration Partner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTEN PLAN -->
+<section id="konten">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-row"><span class="num">03</span><div class="line"></div><span class="kicker">Update Konten Plan</span></div>
+      <h2 class="section-title">Progres pembuatan &<br>distribusi konten</h2>
+      <p class="section-desc">Total 25 konten plan udah disusun, ini sejauh mana jalannya.</p>
+    </div>
+
+    <div class="konten-layout reveal">
+      <div class="konten-left">
+        <div class="stat-grid-3">
+          <div class="stat-card accent-top"><div class="num" data-count="25"><span class="counted">0</span></div><div class="num-label">Jumlah Konten Plan</div></div>
+          <div class="stat-card accent-top"><div class="num" data-count="15"><span class="counted">0</span></div><div class="num-label">Sudah Take Konten</div></div>
+          <div class="stat-card accent-top"><div class="num" data-count="6"><span class="counted">0</span></div><div class="num-label">Sudah Diupload</div></div>
+        </div>
+
+        <div class="progress-block">
+          <div class="progress-row">
+            <div class="progress-label-row"><span>Take konten</span><span class="progress-count">15 / 25</span></div>
+            <div class="progress-bar"><div class="progress-fill" data-target-pct="60"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label-row"><span>Upload konten</span><span class="progress-count">6 / 25</span></div>
+            <div class="progress-bar"><div class="progress-fill" data-target-pct="24"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="konten-right">
+        <div class="logo-tier-label">Konten Behind</div>
+
+        <div class="behind-card">
+          <div class="behind-head"><span class="behind-avatar"></span><span class="behind-user">kkn43.pagersari</span></div>
+          <div class="behind-video">Behind The Scene 1</div>
+          <p class="behind-caption">KKN 43 join the trend — lihat prosesnya.</p>
+        </div>
+
+        <div class="behind-card">
+          <div class="behind-head"><span class="behind-avatar"></span><span class="behind-user">reignous</span></div>
+          <div class="behind-video">Behind The Scene 2</div>
+          <p class="behind-caption">Mannequin Challenge — Reignous ✨</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RENCANA KEDEPAN -->
+<section id="rencana" style="background:var(--cream-2);">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-row"><span class="num">04</span><div class="line"></div><span class="kicker">Rencana Kedepan</span></div>
+      <h2 class="section-title">Yang mau dikerjain PR selanjutnya</h2>
+    </div>
+
+    <div class="plan-grid reveal">
+      <div class="plan-card"><span class="idx">01</span><p>Tanggal 21 mulai take konten</p></div>
+      <div class="plan-card"><span class="idx">02</span><p>Follow up sponsor yang sudah ada progres</p></div>
+      <div class="plan-card"><span class="idx">03</span><p>Beresin list benefit untuk pihak sponsor</p></div>
+      <div class="plan-card"><span class="idx">04</span><p>Konfirmasi tenant</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing" id="closing">
+  <div class="closing-blob blob"></div>
+  <div class="section-inner reveal">
+    <h2>Jadiii gituu geiis, <em>!!!</em></h2>
+    <p class="sub">Makasiieeeh sudah nyimak update-nya. Kalau ada pertanyaan atau masukan, langsung samperin tim PR ya!</p>
+  </div>
+</section>
+
+<footer>Divisi Public Relation · Ormik Aruna 2026</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); }
+    });
+  },{ threshold:0.15 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // count up numbers — cepat & singkat (ease-out, durasi tetap)
+  function animateCount(el){
+    const target = parseInt(el.getAttribute('data-count'),10);
+    const span = el.querySelector('.counted');
+    const duration = 600; // ms
+    const startTime = performance.now();
+    function tick(now){
+      const p = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      span.textContent = Math.round(eased * target);
+      if(p < 1){ requestAnimationFrame(tick); }
+    }
+    requestAnimationFrame(tick);
+  }
+  const counters = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        animateCount(entry.target);
+        countIO.unobserve(entry.target);
+      }
+    });
+  },{ threshold:0.4 });
+  counters.forEach(c=>countIO.observe(c));
+
+  // progress bars — isi dari 0 ke persentase target
+  const bars = document.querySelectorAll('.progress-fill');
+  const barIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        el.style.width = el.getAttribute('data-target-pct') + '%';
+        barIO.unobserve(el);
+      }
+    });
+  },{ threshold:0.4 });
+  bars.forEach(b=>barIO.observe(b));
+
+  // nav dots + top navbar active state
+  const sections = ['hero','sponsor','logos','konten','rencana','closing'].map(id=>document.getElementById(id));
+  const dots = document.querySelectorAll('.navdots a');
+  const navlinks = document.querySelectorAll('.topnav .navlinks a');
+  const navIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        dots.forEach(d=>d.classList.remove('active'));
+        navlinks.forEach(l=>l.classList.remove('active'));
+        const dotMatch = document.querySelector(`.navdots a[data-target="${id}"]`);
+        if(dotMatch) dotMatch.classList.add('active');
+        const linkMatch = document.querySelector(`.topnav .navlinks a[data-target="${id}"]`);
+        if(linkMatch) linkMatch.classList.add('active');
+      }
+    });
+  },{ threshold:0.5 });
+  sections.forEach(s=>s && navIO.observe(s));
+
+  dots.forEach(d=>{
+    d.addEventListener('click',(e)=>{
+      e.preventDefault();
+      document.getElementById(d.dataset.target).scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  // top navbar: solid background once scrolled + smooth scroll links
+  const topnav = document.getElementById('topnav');
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 40){ topnav.classList.add('scrolled'); }
+    else{ topnav.classList.remove('scrolled'); }
+  });
+  document.querySelectorAll('.topnav a[data-target]').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      e.preventDefault();
+      document.getElementById(a.dataset.target).scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
